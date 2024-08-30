@@ -29,7 +29,7 @@
                 </li>
 
                 <li class="sidebar-tab" id="admin-access-tab">
-                    <a href="">
+                    <a href="{{route('admin.view.admin.access.list')}}">
                     <i data-feather="shield"></i>
                     <span>Admin Access</span>
                     </a>

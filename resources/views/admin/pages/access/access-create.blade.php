@@ -59,21 +59,6 @@
                         @enderror
                     </div>
 
-                    {{-- Role --}}
-                    <div class="flex flex-col">
-                        <label for="role_id" class="input-label">Role <em>*</em></label>
-                        <select name="role_id" class="input-box-md @error('role_id') input-invalid @enderror" required>
-                            <option value="">Select Role</option>
-                            @foreach ($roles as $role)
-                                <option @selected(old('role_id') == $role->id) value="{{ $role->id }}">
-                                    {{ $role->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('role_id')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
                     {{-- Password --}}
                     <div class="input-group">
                         <label for="password" class="input-label">Password <em>*</em></label>

@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\Admin\SendPasswordResetMail;
+use App\Models\Admin;
 use App\Models\PasswordResetToken;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
@@ -106,34 +110,107 @@ class LoginController extends Controller implements LoginInterface
     public function handleForgotPassword(Request $request): mixed
     {
         try {
-
             $validation = validator::make($request->all(), [
-                'email' => ['required', 'string', 'exsits:admins', 'min:6', 'max:100'],
+                'email' => ['required', 'string', 'exists:admins,email', 'min:6', 'max:100'],
             ]);
-
+            
             if ($validation->fails()) {
-                return redirect()->back()->withErrors($request)->withInput();
+                return redirect()->back()->withErrors($validation)->withInput();
             }
+            
 
             $token = Str::random(64);
 
-            // PasswordResetToken::where('email', $request->input('email'))->delete();
+            DB::table('password_reset_tokens')->where('email',  $request->input('email'))->delete();
 
-            // PasswordResetToken::create([
-            //     'email' => $request->input('email'),
-            //     'token' => $token,
-            //     'created_at' => Carbon::now()
-            // ]);
+            DB::table('password_reset_tokens')->insert([
+                'email' => $request->input('email'),
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]);
 
-            // $url = route('admin.view.reset.password', ['token' => $token]);
+            $url = route('admin.view.reset.password', ['token' => $token]);
 
-            // dispatch(new SendPasswordResetMail($request->input('email'), $url));
+            dispatch(new SendPasswordResetMail($request->input('email'), $url));
 
             return redirect()->back()->with('message', [
                 'status' => 'success',
                 'title' => 'Link sent',
                 'description' => 'The password reset link sent to your email'
             ]);
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message', [
+                'status' => 'error',
+                'title' => 'An error occcured',
+                'description' => $exception->getMessage()
+            ]);
+        }
+    }
+
+        /**
+     * View Reset Password
+     *
+     * @return mixed
+     */
+    public function viewResetPassword($token): mixed
+    {
+        try {
+
+            if (DB::table('password_reset_tokens')->where('token', $token)->exists()) {
+
+                $email = DB::table('password_reset_tokens')->where('token', $token)->first()->email;
+
+                return view('admin.pages.auth.reset-password', [
+                    'token' => $token,
+                    'email' => $email
+                ]);
+            }
+
+            return abort(404);
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message', [
+                'status' => 'error',
+                'title' => 'An error occcured',
+                'description' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Handle Reset Password
+     *
+     * @return mixed
+     */
+    public function handleResetPassword(Request $request, $token): mixed
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'email' => ['required', 'string', 'email', 'exists:admins', 'exists:password_reset_tokens', 'min:6', 'max:100'],
+                'password' => ['required', 'string', 'confirmed', 'min:6', 'max:20']
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            if (DB::table('password_reset_tokens')->where(['email' => $request->email, 'token' => $token])->exists()) {
+
+                $admin = Admin::where('email', $request->input('email'))->first();
+                $admin->password = Hash::make($request->input('password'));
+                $admin->password_updated_at = Carbon::now();
+                $admin->update();
+
+                DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
+
+                return redirect()->route('admin.view.login')->with('message', [
+                    'status' => 'success',
+                    'title' => 'Password set',
+                    'description' => 'Your account password is successfully set.'
+                ]);
+            }
+
+            return abort(404);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', [
                 'status' => 'error',

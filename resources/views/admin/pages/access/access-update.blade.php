@@ -23,14 +23,12 @@
                     <h1 class="panel-card-title">Edit Information</h1>
                     <p class="panel-card-description">Please fill the required fields</p>
                 </div>
-                @can(\App\Enums\Permission::DELETE_ACCESS->value)
                 <div>
                     <button type="button" class="btn-danger-sm flex items-center justify-center" onclick="handleDelete()">
                         <span class="lg:block md:block sm:hidden mr-2">Delete</span>
                         <i data-feather="trash"></i>
                     </button>
                 </div>
-                @endcan
             </div>
             <div class="panel-card-body">
                 <div class="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-5">
@@ -63,21 +61,6 @@
                             class="input-box-md @error('phone') input-invalid @enderror" placeholder="Enter Phone" required
                             pattern="[0-9]{10}" minlength="10" maxlength="10">
                         @error('phone')
-                            <span class="input-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Role --}}
-                    <div class="flex flex-col">
-                        <label for="role_id" class="input-label">Role <em>*</em></label>
-                        <select name="role_id" class="input-box-md @error('role_id') input-invalid @enderror" required>
-                            <option value="">Select Role</option>
-                            @foreach ($roles as $role)
-                                <option @selected(old('role_id',$admin->roles->first()->id) == $role->id) value="{{ $role->id }}">
-                                    {{ $role->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('role_id')
                             <span class="input-error">{{ $message }}</span>
                         @enderror
                     </div>
@@ -132,7 +115,6 @@
         document.getElementById('admin-access-tab').classList.add('active');
 
 
-        @can(\App\Enums\Permission::DELETE_ACCESS->value)
         const handleDelete = () => {
             swal({
                     title: "Are you sure?",
@@ -148,6 +130,5 @@
                     }
                 });
         }
-        @endcan
     </script>
 @endsection
