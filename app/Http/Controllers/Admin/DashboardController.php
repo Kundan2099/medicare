@@ -34,11 +34,7 @@ class DashboardController extends Controller implements DashboardInterface
         try {            
             return view('admin.pages.dashboard.dashboard');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', [
-                'status' => 'error',
-                'title' => 'An error occcured',
-                'description' => $exception->getMessage()
-            ]);
+            return $this->sendExceptionError($exception);
         }
     }   
 

@@ -14,7 +14,7 @@
 @endsection
 
 @section('panel-body')
-    <form action="{{route('admin.handle.setting.account')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.handle.setting.account') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <figure class="panel-card">
             <div class="panel-card-header">
@@ -29,11 +29,12 @@
                     {{-- Profile --}}
                     <div class="2xl:col-span-5 xl:col-span-4 lg:col-span-4 md:col-span-4 sm:col-span-1">
                         <div class="flex items-center space-x-5">
-                            <img src="{{ asset('storage/' . auth()->user()->profile_image) }}"
-                                id="profile" alt="profile" class="h-24 w-24 rounded-full border bg-white" />
+                            <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" id="profile" alt="profile"
+                                class="h-24 w-24 rounded-full border bg-white" />
                             <div class="input-group">
                                 <label for="profile_image" class="input-label">Profile</label>
-                                <button type="button" onclick="document.getElementById('profile-input').click()" class="btn-primary-sm w-fit flex items-center space-x-1.5">
+                                <button type="button" onclick="document.getElementById('profile-input').click()"
+                                    class="btn-primary-sm w-fit flex items-center space-x-1.5">
                                     <span>Select Image</span>
                                     <i data-feather="upload"></i>
                                 </button>
@@ -77,7 +78,7 @@
                     </div>
 
                     {{-- Date of Birth --}}
-                    <div class="input-group">
+                    {{-- <div class="input-group">
                         <label for="date_of_birth" class="input-label">Date of Birth <span>(Optional)</span></label>
                         <input type="date" name="date_of_birth"
                             value="{{ old('date_of_birth', auth()->user()->date_of_birth) }}"
@@ -85,10 +86,10 @@
                         @error('date_of_birth')
                             <span class="input-error">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     {{-- Gender --}}
-                    <div class="input-group">
+                    {{-- <div class="input-group">
                         <label for="gender" class="input-label">Gender <span>(Optional)</span></label>
                         <select name="gender" id="gender" class="input-box-md @error('gender') input-invalid @enderror">
                             <option value="">Select Gender</option>
@@ -99,7 +100,7 @@
                         @error('gender')
                             <span class="input-error">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     {{-- Account Password --}}
                     <div class="input-group">
@@ -134,6 +135,5 @@
                 document.getElementById('profile').src = URL.createObjectURL(event.target.files[0])
             }
         }
-
     </script>
 @endsection

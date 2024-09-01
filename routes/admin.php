@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAccessController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,5 +53,13 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/update/{id}', 'handleAdminAccessUpdate')->name('admin.handle.admin.access.update');
         Route::put('/status', 'handleToggleAdminAccessStatus')->name('admin.handle.admin.access.status');
         Route::get('/delete/{id}', 'handleAdminAccessDelete')->name('admin.handle.admin.access.delete');
+    });
+
+    Route::prefix('setting')->controller(SettingController::class)->group(function () {
+        Route::get('/', 'viewSetting')->name('admin.view.setting');
+        Route::get('/account-information', 'viewAccountSetting')->name('admin.view.setting.account');
+        Route::post('/account-information', 'handleAccountSetting')->name('admin.handle.setting.account');
+        Route::get('/update-password', 'viewPasswordSetting')->name('admin.view.setting.password');
+        Route::post('/update-password', 'handlePasswordSetting')->name('admin.handle.setting.password');
     });
 });

@@ -37,7 +37,7 @@
 
         <ul class="flex flex-col space-y-3">
             <li>
-                <a href=""
+                <a href="{{route('admin.view.setting')}}"
                     class="text-xs font-medium text-slate-800 hover:text-admin-ascent-dark whitespace-nowrap flex items-center justify-start">
                     <i data-feather="settings" class="mr-2 h-5 w-5"></i> Account Settings
                 </a>

@@ -59,7 +59,6 @@
         </div>
     </figure>
 
-    @can(\App\Enums\Permission::MANAGE_ROLES_AND_PERMISSION->value)
     <figure class="panel-card">
         <div class="panel-card-body">
             <div class="space-y-3">
@@ -73,7 +72,7 @@
                     <p class="description">Manage roles & permission settings</p>
                 </div>
                 <div>
-                    <a href="{{route('admin.view.setting.role.permission')}}" class="link text-sm flex items-center space-x-2">
+                    <a href="" class="link text-sm flex items-center space-x-2">
                         <span>Edit Prefrences</span>    
                         <i data-feather="edit" class="h-3 w-3 stroke-[2.5px]"></i>
                     </a>
@@ -81,7 +80,6 @@
             </div>
         </div>
     </figure>
-    @endcan
 
 </div>
 @endsection
