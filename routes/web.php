@@ -29,3 +29,8 @@ Route::get('/', function () {
 Route::get('/home1', function () {
     return view('web.pages.home1');
 })->name('web.view.home1');
+
+
+// Route::get('/home1', function () {
+//     return view('web.pages.home1');
+// })->name('web.view.home1');
