@@ -38,12 +38,12 @@ Route::middleware(['guest:admin'])->group(function () {
 });
 
 
+
 Route::middleware(['auth:admin'])->group(function () {
 
     Route::post('/logout', [DashboardController::class, 'handleLogout'])->name('admin.handle.logout');
 
     Route::get('/dashboard', [DashboardController::class, 'viewDashboard'])->name('admin.view.dashboard');
-
 
     Route::prefix('admin-access')->controller(AdminAccessController::class)->group(function () {
         Route::get('/', 'viewAdminAccessList')->name('admin.view.admin.access.list');
