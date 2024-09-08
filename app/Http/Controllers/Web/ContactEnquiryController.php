@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendContactMail;
 use App\Jobs\SendContactNotification;
+use App\Jobs\SendContactWlcome;
 use App\Models\ContactEnquiry;
 use App\Notifications\ContactNotification;
 use Illuminate\Http\Request;
@@ -38,6 +39,8 @@ class ContactEnquiryController extends Controller
 
             // Job through send notification
             SendContactNotification::dispatch($contact_enquiry);
+
+            dispatch(new SendContactWlcome($request->input('email')));
 
             // Direction notification 
             // Notification::route('mail', 'kundankapgate2005@gmail.com')->notify(new ContactNotification($contact_enquiry));

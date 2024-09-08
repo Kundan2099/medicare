@@ -63,10 +63,10 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/update-password', 'handlePasswordSetting')->name('admin.handle.setting.password');
     });
 
-    Route::get('/roles-permissions', 'viewRolePermission')->name('admin.view.setting.role.permission');
-    Route::get('/role/create', 'viewRoleCreate')->name('admin.view.setting.role.create');
-    Route::post('/role/create', 'handleRoleCreate')->name('admin.handle.setting.role.create');
-    Route::get('/role/update/{id}', 'viewRoleUpdate')->name('admin.view.setting.role.update');
-    Route::post('/role/update/{id}', 'handleRoleUpdate')->name('admin.handle.setting.role.update');
-    Route::get('/role/remove/permission/{role_id}/{permission_id}', 'handleRemovePermission')->name('admin.view.setting.role.remove.permission');
+    // Route::get('/roles-permissions', 'viewRolePermission')->name('admin.view.setting.role.permission');
+    // Route::get('/role/create', 'viewRoleCreate')->name('admin.view.setting.role.create');
+    // Route::post('/role/create', 'handleRoleCreate')->name('admin.handle.setting.role.create');
+    // Route::get('/role/update/{id}', 'viewRoleUpdate')->name('admin.view.setting.role.update');
+    // Route::post('/role/update/{id}', 'handleRoleUpdate')->name('admin.handle.setting.role.update');
+    // Route::get('/role/remove/permission/{role_id}/{permission_id}', 'handleRemovePermission')->name('admin.view.setting.role.remove.permission');
 });
