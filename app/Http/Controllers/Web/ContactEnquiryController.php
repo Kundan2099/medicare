@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\ContactEnquiryReceived;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendContactMail;
 use App\Jobs\SendContactNotification;
@@ -37,14 +38,14 @@ class ContactEnquiryController extends Controller
             $contact_enquiry->message = $request->input('message');
             $contact_enquiry->save();
 
+            $enquiry = $contact_enquiry;
+
             // Job through send notification
             SendContactNotification::dispatch($contact_enquiry);
-
-            dispatch(new SendContactWlcome($request->input('email')));
-
             // Direction notification 
             // Notification::route('mail', 'kundankapgate2005@gmail.com')->notify(new ContactNotification($contact_enquiry));
 
+            event(new ContactEnquiryReceived($enquiry));
 
             return redirect()->back()->with('message', [
                 'status' => 'success',
