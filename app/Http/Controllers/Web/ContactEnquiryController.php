@@ -38,14 +38,14 @@ class ContactEnquiryController extends Controller
             $contact_enquiry->message = $request->input('message');
             $contact_enquiry->save();
 
-            $enquiry = $contact_enquiry;
+            // $enquiry = $contact_enquiry;
 
             // Job through send notification
             SendContactNotification::dispatch($contact_enquiry);
             // Direction notification 
             // Notification::route('mail', 'kundankapgate2005@gmail.com')->notify(new ContactNotification($contact_enquiry));
 
-            event(new ContactEnquiryReceived($enquiry));
+            event(new ContactEnquiryReceived($contact_enquiry->email));
 
             return redirect()->back()->with('message', [
                 'status' => 'success',

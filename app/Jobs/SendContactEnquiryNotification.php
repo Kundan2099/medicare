@@ -10,20 +10,19 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Notification;
 
 class SendContactEnquiryNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $enquiry;
+    protected $email;
     /**
      * Create a new job instance.
      */
-    public function __construct($enquiry)
+    public function __construct($email)
     {
-        $this->enquiry = $enquiry;
-
+        $this->email = $email;
     }
 
     /**
@@ -31,9 +30,10 @@ class SendContactEnquiryNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to(config('mail.admin_email'))->send(new ContactEnquiryMail($this->enquiry));
-        // Notification::send($admin, new ContactEnquiryNotification($this->enquiry));
+        // Mail::to(config('mail.admin_email'))->send(new ContactEnquiryMail($this->enquiry));
         // $this->enquiry->notify(new ContactEnquiryNotification($this->enquiry));
 
+        $email = 'kundankapgate2005@gmail.com';
+        Notification::route('mail', $this->email)->notify(new ContactEnquiryNotification($email));
     }
 }
