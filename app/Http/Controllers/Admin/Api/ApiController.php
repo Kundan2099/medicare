@@ -1,4 +1,5 @@
 <?php
+use Akaunting\Setting\Provider;
 
 // namespace App\Http\Controllers\Admin;
 
@@ -8,11 +9,11 @@
 //     'data' => $admin
 // ], 201);
 
-//      response([
-//         'status' => true,
-//         'message' => "Status successfully updated", //ok
-//         'data' => $admin
-//     ], 200);
+// return response()->json([
+//     'status' => true,
+//     'message' => "Status successfully updated",
+//     'data' => $admin
+// ], 200);
 
 //     response([
 //         'status' => true,
@@ -32,3 +33,15 @@
 //         'data' => $admin
 //     ], 400); 
 
+        // Example status codes and messages
+        // $statusCodes = [
+        //     200 => 'OK',
+        //     201 => 'Created',
+        //     204 => 'No Content',
+        //     400 => 'Bad Request',
+        //     401 => 'Unauthorized',
+        //     403 => 'Forbidden',
+        //     404 => 'Not Found',
+        //     500 => 'Internal Server Error',
+        //     300 => 'Multiple Choices'
+        // ];
